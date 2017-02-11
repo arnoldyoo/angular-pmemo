@@ -1,0 +1,7 @@
+
+<div *ngFor="let memo of pmemos | async">
+    <span>{{memo.type}}</span>
+    <span>{{memo.title}}</span>
+    <h4>{{memo.contents}}</h4>
+    <button class="btn btn-danger" (click)="delete(memo.$key)">X</button>
+</div>

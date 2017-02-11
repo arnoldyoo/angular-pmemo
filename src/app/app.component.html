@@ -1,3 +1,10 @@
-<h1>
-  {{title}}
-</h1>
+<div class="main-container">
+    <button class="btn btn-success" (click)="login()"> login </button>
+    <button class="btn btn-warning" (click)="logout()"> logout </button>
+</div>
+
+
+<div *ngIf="isLogin" class="main-container">
+    <new-memo></new-memo>
+    <show-memo></show-memo>    
+</div>
