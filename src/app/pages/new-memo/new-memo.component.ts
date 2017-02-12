@@ -12,23 +12,39 @@ export class NewMemoComponent implements OnInit {
     selectedType: string;
     prioritymemo_text: string;
     prioritymemo_title: string;
+
+    
   
     constructor(
         private af: AngularFire
     ) { 
         this.selectedType = 'A';
+        this.prioritymemo_text = '';
+        this.prioritymemo_title = '';
     }
 
     ngOnInit() { }
 
     insertNewMemo() {
+        if (this.prioritymemo_text === '' || this.prioritymemo_title === ''){
+            alert('no title or contents');
+            return;
+        }
+        
         const memo_obj = {
             title: this.prioritymemo_title,
             contents: this.prioritymemo_text,
             type: this.selectedType,
-            create_date : new Date()
+            create_date : new Date().getTime()
         }
+        console.log(memo_obj);
+
         const memoObservable = this.af.database.list('/pmemos');
         memoObservable.push(memo_obj);
+
+        //initialize
+        this.prioritymemo_text = '';
+        this.prioritymemo_title = '';
+        this.selectedType = 'A';
     }
 }

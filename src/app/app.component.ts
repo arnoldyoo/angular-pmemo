@@ -13,10 +13,7 @@ export class AppComponent implements OnInit{
 	constructor(
 		private af: AngularFire
 	) {
-
-	}
-	ngOnInit(){
-		this.af.auth.subscribe(auth => {
+		af.auth.subscribe(auth => {
 			console.log(auth);
 			if (auth.uid !== undefined){
 				this.isLogin = true;
@@ -25,6 +22,8 @@ export class AppComponent implements OnInit{
 				this.login();
 			}
 		});
+	}
+	ngOnInit(){
 	}
 
 	login(): void {

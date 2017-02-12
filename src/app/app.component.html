@@ -4,7 +4,24 @@
 </div>
 
 
-<div *ngIf="isLogin" class="main-container">
-    <new-memo></new-memo>
-    <show-memo></show-memo>    
+
+<div class="container-fluid" *ngIf="isLogin">
+
+    <h5>Type Info</h5>
+    <h6> type A -> must do today </h6>
+    <h6> type B -> after finishing type a</h6>
+    <h6> type C -> do not have to do it today</h6>
+
+  <div class="row">
+    <div>
+        <new-memo></new-memo>
+    </div>
+
+    <hr color="skyblue" width="100%" />
+
+    <div class="show-memo">
+        <show-memo></show-memo>
+    </div>
+  </div>
 </div>
+
