@@ -11,16 +11,21 @@ export class ShowMemoComponent implements OnInit {
     selectedMemo: any;
     memoKey: string;
     Priority: Array<string> = ['A', 'B', 'C'];
+    user_uid:string;
     constructor(
         private af: AngularFire,
         private el: ElementRef
-    ) { }
+    ) { 
+        af.auth.subscribe(auth => {
+			this.user_uid = auth.uid;
+		});
+    }
 
     ngOnInit() { 
         this._setPriorityMemoList();
     }
     private _setPriorityMemoList(): void {
-        this.pmemos = this.af.database.list('/pmemos');
+        this.pmemos = this.af.database.list('/pmemos/' + this.user_uid);
     }
     delete(key: string): void {
         this.pmemos.remove(key);
@@ -29,7 +34,6 @@ export class ShowMemoComponent implements OnInit {
         
         this.selectedMemo = oMemo;
         this.memoKey = key;
-        console.log(this.el.nativeElement);
         $('#'+this.memoKey).show();
         
         
