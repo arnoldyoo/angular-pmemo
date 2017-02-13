@@ -1,3 +1,4 @@
+import { Observable } from '@angular-cli/ast-tools/node_modules/rxjs/Rx';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import {AngularFire, FirebaseListObservable} from 'angularfire2';
 
@@ -7,7 +8,8 @@ import {AngularFire, FirebaseListObservable} from 'angularfire2';
     styleUrls: ['show-memo.component.css']
 })
 export class ShowMemoComponent implements OnInit {
-    pmemos: FirebaseListObservable<any[]>;
+    pmemos$: FirebaseListObservable<any[]>;
+    pmemos: Array<any> = [];
     selectedMemo: any;
     memoKey: string;
     Priority: Array<string> = ['A', 'B', 'C'];
@@ -20,23 +22,22 @@ export class ShowMemoComponent implements OnInit {
 			this.user_uid = auth.uid;
 		});
     }
-
     ngOnInit() { 
         this._setPriorityMemoList();
     }
     private _setPriorityMemoList(): void {
-        this.pmemos = this.af.database.list('/pmemos/' + this.user_uid);
+        this.pmemos$ = this.af.database.list('/pmemos/' + this.user_uid);
+        this.pmemos$.subscribe(data => {
+            this.pmemos = data;
+        })
     }
     delete(key: string): void {
-        this.pmemos.remove(key);
+        this.pmemos$.remove(key);
     }
     edit(oMemo: any, key: string): void {
-        
         this.selectedMemo = oMemo;
         this.memoKey = key;
         $('#'+this.memoKey).show();
-        
-        
     }
     updateMemo(): void {
         if (this.selectedMemo.title === '' || this.selectedMemo.contents === '') {
@@ -49,7 +50,7 @@ export class ShowMemoComponent implements OnInit {
             contents : this.selectedMemo.contents,
             update_date : new Date().getTime()
         }
-        this.pmemos.update(this.memoKey, memo_obj);
+        this.pmemos$.update(this.memoKey, memo_obj);
         this.cancelUpdate();
     }
     cancelUpdate(): void {
