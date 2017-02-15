@@ -13,19 +13,16 @@ export class NewMemoComponent implements OnInit {
     prioritymemo_text: string;
     prioritymemo_title: string;
     user_uid:string;
-    
-  
     constructor(
         private af: AngularFire
     ) { 
         this.selectedType = 'A';
         this.prioritymemo_text = '';
         this.prioritymemo_title = '';
-         af.auth.subscribe(auth => {
+        af.auth.subscribe(auth => {
 			this.user_uid = auth.uid;
 		});
     }
-
     ngOnInit() { }
 
     insertNewMemo() {
@@ -40,11 +37,8 @@ export class NewMemoComponent implements OnInit {
             type: this.selectedType,
             create_date : new Date().getTime()
         }
-        console.log(memo_obj);
-
         const memoObservable = this.af.database.list('/pmemos/'+this.user_uid);
         memoObservable.push(memo_obj);
-
         //initialize
         this.prioritymemo_text = '';
         this.prioritymemo_title = '';

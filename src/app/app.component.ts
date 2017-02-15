@@ -8,8 +8,6 @@ import { AngularFire } from 'angularfire2';
 })
 export class AppComponent implements OnInit{
 	isLogin: boolean = false;
-	login_obj: any;
-
 	constructor(
 		private af: AngularFire
 	) {
@@ -25,11 +23,8 @@ export class AppComponent implements OnInit{
 	}
 	ngOnInit(){
 	}
-
 	login(): void {
-
 		this.af.auth.login();
-		
 	}
 	logout(): void {
 		this.af.auth.logout();
